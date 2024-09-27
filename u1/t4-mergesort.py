@@ -46,10 +46,12 @@ a2 = [3, 1, 15, 7, 8, 2]
 a3 = np.random.randint(1, 10000, 1000).tolist() # converting to list because numpy array does not support
 
 merge_sort(a1)
-print(a1)
+print("a1:", a1)
 
 merge_sort(a2)
-print(a2)
+print("a2:", a2)
 
 merge_sort(a3)
-print(a3)
+print("a3:")
+for i in range(0, len(a3), 20):
+     print(a3[i:i+20])
