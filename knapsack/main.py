@@ -1,40 +1,23 @@
-W = 11
-v = [60, 100, 120]
-w = [10, 20, 30]
+def knapSack(W, wt, val, n):
+    K = [[0 for _ in range(W + 1)] for _ in range(n + 1)]
 
-def knapsack(W, v, w):
-    m = []
-    for i in range(0, len(v) + 1):
-        subarr = []
-        for j in range(0, W + 1):
-            subarr.append(0)
-        m.append(subarr)
-
-    print(m)
-    for i in range(0, len(v)):
-        for j in range(0, W + 1):
-            if j < w[i]:
-                m[i+1][j] = m[i][j]
+    for i in range(n + 1):
+        for w in range(W + 1):
+            if i == 0 or w == 0:
+                K[i][w] = 0
+            elif wt[i - 1] <= w:
+                K[i][w] = max(val[i - 1]
+                              + K[i-1][w - wt[i - 1]],
+                              K[i-1][w])
             else:
-                m[i+1][j] = max(m[i][j], v[i] + m[i][j - w[i]])
-    i, j = len(v), W
-    cont = m[i][j]
-    resultados = []
-    while cont > 0:
-        while j > 0:
-            if m[i][j - 1] != cont:
-                break
-            j -= 1
-        while i > 0:
-            if m[i - 1][j] != cont:
-                break
-            i -= i
-        valor_tomado = v[i]
-        resultados.append(valor_tomado)
-        cont -= valor_tomado
-        j = j - valor_tomado
+                K[i][w] = K[i-1][w]
+
+    return {"max_profit": K[n][W], "matrix": K}
 
 
-    return m
-
-print(knapsack(W, v, w))
+if __name__ == '__main__':
+    profit = [60, 100, 120]
+    weight = [10, 20, 30]
+    W = 11
+    n = len(profit)
+    print(knapSack(W, weight, profit, n))
